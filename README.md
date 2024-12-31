@@ -18,7 +18,7 @@ Type-II censoring is widely used in survival analysis and reliability testing. T
 # This repository includes:
 
 - Theoretical insights into Type-II censoring and the Kolmogorov-Smirnov statistic.
-- Python/Matlab scripts to compute optimal parameters and percentile points.
+- R scripts to compute optimal parameters and percentile points.
 - Results and visualizations obtained during the research.
 
 # Potential Applications
