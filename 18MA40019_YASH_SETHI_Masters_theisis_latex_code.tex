@@ -1,0 +1,385 @@
+%\documentclass[12pt , reqno]{article}
+\documentclass[12pt, reqno]{amsart}
+\usepackage[utf8]{inputenc}
+\usepackage{mathtools}
+%\usepackage{epsfig}
+%\usepackage[dvips]{graphics}
+\usepackage{rotating}
+\usepackage{url}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{textcomp}
+\usepackage{bm}
+\usepackage[round]{natbib} 
+\usepackage[OT1]{fontenc}
+\usepackage{graphicx,epsfig}
+\usepackage{epstopdf}
+\usepackage{amscd}
+\usepackage{graphics}
+\usepackage{amsmath,latexsym,amssymb,amsthm}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,citecolor=blue,linktocpage=true}
+\textwidth=16.5cm
+\textheight=22cm
+\parindent=16pt
+\oddsidemargin=-.0cm
+\evensidemargin=-.0cm
+ \topmargin=-.5cm
+ 
+\renewcommand{\baselinestretch}{1.5}
+
+%\newcommand{\singlespacing}{\let\CS=\@currsize\renewcommand{\baselinestretch}{1.5}\tiny\CS}
+%\newcommand{\doublespacing}{\let\CS=\@currsize\renewcommand{\baselinestretch}{1.6}\tiny\CS}
+
+
+\begin{document}
+\title[KS test under Type-II censoring]{Computation of percentiles points for Kolmogorov-Smirnov statistic under Type-II censoring }
+\author{Yash Sethi} \footnotetext{The project is done under the supervision of Dr. Buddhananda Banerjee.} 
+\address{Department of Mathematics  Indian Institute of Technology Kharagpur, India-721302}
+\email{sethiyash87@gmail.com}
+
+
+ 
+\begin{abstract}
+    This work considers goodness-of-fit test  for the life test data with a few censoring schemes. Kolmogorov–Smirnov(KS) test is one of the most popular  non-parametric test  for goodness-of-fit with complete data. KS test  is easily extendable for the Type-I censoring. But its generalization  for the Type-II censoring  is much more challenging because of the involvement of censoring sample size and the complete sample size. KS statistic is a continuous functional of the standard Brownian Bridge which is an infinite dimensional object.   As  a consequence  sampling from the standard Brownian Bridge  demands finer partitions  on $[0,1]$ and it becomes computationally intensive. But the finer partition neither  guaranty  to meet the level of the test nor to maintain the power of the test under Type-II censoring. {\bf We want to propose a computationally efficient  method to find the percentile points of the distribution of KS statistic under Type-II censoring scheme  overcoming the above problems. We are intending to generalize the idea for the case when the parameter is unknown.  
+ }
+\end{abstract}
+
+\maketitle
+
+
+ \tableofcontents{}
+ \vspace{1cm}
+ \newpage
+
+
+
+
+\section{Introduction}
+Testing for goodness-of-fit is one of the  fundamental problem in statistics.
+A density based approach provides $\chi^2$-test and a distribution based approach provides Kolmogorov–Smirnov (KS) test for the same.  Among many other, 
+the  most popular and worth performing  goodness-of-fit   tests with complete data are Cram\'{e}r-von Mises test and Anderson-Darling test etc.. When the data are complete and the distribution is pre-specified, the KS-test statistic asymptotically follows the Kolmogorov distribution under the null hypothesis. The Kolmogorov distribution can be viewed as a distribution of the  supremum norm of a standard Brownian bridge on $[0,1]$. 
+
+When the data are censored with different schemes, the generalization
+of the KS-test becomes  a more interesting challenge with life testing data. 
+The two most important  censoring schemes are Type-I and Type-II censoring.
+The duration of a life-testing experiment, denoted by random variable $X$,
+in a Type-I censoring is predetermined, say $X_{0}$, goes in favour of consumer.
+But the number of failures in that time interval  $[0, X_0]$ is a non-negative
+integer-valued random variable. On the contrary, in  a Type-II censoring scheme,
+the experiment takes a random time to produce a  pre-specified number of failures,
+say r, goes in favour of the producer.  Hence, the stopping time  of the experiment is a random variable, the $r^{th}$ order statistic, usually denoted by $X_{(r)}$.\\
+
+
+\cite{kolmogorov_1933} and \cite{smirnov_1948} provided a complete methodology to compare an empirical cumulative distribution function
+(ECDF) with a pre-specified cumulative distribution function (CDF).  The two-sided one-sample KS test is modified by
+\cite{barr1973kolmogorov} to use  it for the censored and truncated samples.  According to their observation, the goodness-of-fit tests based on the modified test statistic are inappropriate when parameters of the hypothesized distribution are estimated from the data and used for the test. It reduces the power of the test. Some correction factors are also suggested by \cite{Dufour_1978} to the KS statistic obtained from Type-I and Type-II censoring schemes to make the statistic compatible with the tabulated critical values provided by \cite{Koziol}. A generalization of KS test was done by \cite{Fleming} for the one-sample and the two-sample problems of an arbitrarily right-censored data.  A new modified goodness-of-fit testing based on Type-II right censored data was proposed by \cite{lin2008new}. The goodness-of-fit test for censored data from a
+location-scale distribution, especially for exponential distribution, has been discussed by \cite{castro2011goodness}.
+
+
+\cite{zhang}   proposed even more powerful test than the existing ones. For Type-I censored data, the KS test statistic has the asymptotic distribution similar to that of complete data on a suitable interval contained in $[0,1]$. For Type-II censored data, when the sample size $(n)$ and the number of failures $(r)$ be quite large such that the ratio $r/n$ approaches to a constant, the distribution of KS test statistic has a similar behavior to that of the Type-I censored data. If the hypothesized distribution is completely known to be $F_0(\cdot)$ then  we also know that the stopping time  follows the  $Beta(r, n - r + 1)$ distribution
+after a transformation $T=F_0(X)$ following $U[0,1].$ \\    
+
+
+We have  studied  the asymptotic behavior of the KS test statistic when the data are coming from the Type-II censoring schemes. We have  computed the percentiles of the distribution of the KS-statistic under Type-II censoring.  Different functional of the standard Brownian Bridge on $[0,1]$  have been computed to resemble with the exact simulation of the KS-test statistic . We have come up with an efficient computational scheme and we are willing  to extend this project for the case when  parameter is  unknown.  
+
+\section{Definitions and Assumptions}
+Let  $X_1, X_2, \ldots ,X_n$ be independently and identically distributed (i.i.d.) random variables form a continuous distribution $F(\cdot).$ Then 
+the KS-statistic quantifies the  supremum norm  between the ECDF $F_n(x)$ from the sample and the true CDF $F(x)$ on $\mathbb{R}$ defined as 
+\begin{equation}
+         {\displaystyle D_{n}=\sup _{x}|F_{n}(x)-F(x)|}
+ \end{equation}
+where, 
+\begin{align}
+    {\displaystyle F_{n}(x)={1 \over n}\sum _{i=1}^{n}\mathbf{1}_{(-\infty,x]}(X_{i})}
+\end{align}
+ is the ECDF and
+   ${\displaystyle \mathbf{1}_{(-\infty ,x]}(X_{i})}$ 
+   is the Dirac delta function that  equals to 1 if ${\displaystyle X_{i}\leq x} $ and equals to 0 otherwise. Then it can be shown that \cite[see][Ch 8]{Durrett}
+ \begin{align}
+    {\displaystyle {\lim_{n \to \infty} \sqrt {n}}D_{n}~ \xrightarrow[]{d}~ \sup _{t}|B(F(t))|.}
+ \end{align} 
+ If $F(\cdot)$ is $U[0,1]$ then under the null hypothesis  ${\displaystyle {\sqrt {n}}D_{n}}$ converges in distribution  to the Kolmogorov distribution. A random variable $K$ defined as  
+ \begin{align}
+      {\displaystyle K=\sup _{t\in [0,1]}|B(t)|}
+  \end{align}
+is said to have the Kolmogorov distribution, where $B(t)$ is the standard Brownian bridge on $[0,1]$.  If $Z(t)$ is a standard Browniann motion,then
+  \begin{equation}
+      {\displaystyle B(t)=Z(t)-{\frac {t}{T}} Z(T)}
+  \end{equation}
+is a Brownian bridge for $ t \in [0, T] $. Note that $B(t)$ is independent of $Z(T)$.
+Brownian motion is a  stochastic process $\mathcal{Z} =\{ Z(t): t \geq 0 \}$ is satisfying the following conditions:
+\begin{itemize}
+    \item For $t_{1} < t_{2} <$ . . . $< t_{n}$, the random variables $Z(t_{n}) - Z( t_{n-1}), . . . ,Z( t_{1} )- Z(0)$ are independent
+    \item  $Z(t + s) - Z(s) \stackrel{d}{=} Z(t) - Z(0)$ for $ s, t \geq 0$
+    \item $Z(t) \stackrel{d}{=} N(\mu t, \sigma ^2 t) $ for $t \geq 0$, drift $\mu \in \mathbb{R}$ and scale $\sigma > 0$
+    \item  $Z(t)$ has a continuous path. 
+\end{itemize}
+A Brownian motion is known as a standard Brownian motion if it has mean $0$ and variance $t$ i.e. $Z(t) \sim N(0,t)$ for all $t \geq 0$.
+
+
+Data or observation are said to be censored if only a partial information of the data is sampled under the scheme. Types of censoring considered in this work are 
+    \begin{itemize}
+        \item \textbf{Type-I censoring }: The duration of a life-testing experiment in a Type-I censoring is predetermined, say $X_{0}\in \mathbb{R}^+ $. The number of events in that time interval is a non negative integer-valued random variable.
+        \item \textbf{Type-II censoring }: In a Type-II censoring scheme, the experiment takes a random time to produce the required number of events, say $r \in \mathbb{N}$, which is pre-specified. Here the stopping time is a random variable, the $r^{th}$ order statistic, denoted by $X_{(r)}$.
+    \end{itemize}
+Suppose $X$ be a continuous  random variable stands for the life distribution supported on positive part of real line i.e. $\mathbb{R}^+=\{x| x>0\}.$ It is assumed that under  the null hypothesis $H_0: X\sim F_0(\cdot)$,  where $F_0(\cdot)$ is completely  specified and  the alternative hypothesis $H_1$ claims that $H_0$ is not true. We can easily do the transformation $T=F_0(X)$ which always follows $U[0,1]$ under the null hypothesis.   Now onward we will discuss about the random variable with $U[0,1]$ distribution only. As a consequence $T_0=F_0(X_0)\in (0,1)$ is the stopping time for Type-I censoring and $T_{(r)}= F_0(X_{(r)})\sim Beta(r, n-r+1)$ for Type-II censoring. 
+
+\section{Methodology}
+
+ In case of a complete data, $T_1, T_2,\cdots T_n$ are i.i.d. $U[0,1]$ random variables under $H_0$.  The CDF of $T_i$'s is given by 
+\begin{align}
+    F(t)=\begin{cases}
+0, & \text{if }t<0\\
+t, & \text{if }t\in[0,1]\\
+1, & \text{if }t>1
+\end{cases}
+\end{align} and the  ECDF  is given by 
+ \begin{align}
+   F_n(t)=\frac{1}{n}\displaystyle\sum_{i=1}^n I_{\{T_i\leq t\}}     
+ \end{align}
+Hence the  KS-statistic for complete data is defined as
+ \begin{align}
+       D_n(t)= F_n(t)-t
+ \end{align}
+ So, the limiting distribution of KS- statistic with complete data  denoted by $KS^{0}$ as  $ n\rightarrow \infty$ converges to $K$ in distribution i.e. 
+ \begin{align}
+  KS^0={\displaystyle\sup_{t\in[0,1]}\sqrt{n}|D_n(t)|=\sup_{t\in[0,1]}\sqrt{n}|F_n(t)-t|   ~~ \xrightarrow{d} ~~ \sup _{t\in [0,1]}|B(t)|}=K   
+ \end{align}
+The working formula for computation with the  complete data is 
+\begin{align}
+KST^0= ~~~{\displaystyle\max_i \max \left\{|T_{(i)}-\frac{i}{n}|,|T_{(i)}-\frac{i-1}{n}|\right\}} \label{kst0}
+\end{align}
+where, $\{T_{(1)}, T_{(2)},\cdots T_{(n)}\}$ are  the order statistic of   $T_1, T_2,\cdots T_n.$
+ 
+In Type-I censoring scheme, the experiment is terminated at time $T_{0} \in [0, 1]$. So, the modified KS-statistic, $KS^{I}$ say, for Type-I censoring will be :
+\begin{align}
+    KS^{I} ={\displaystyle \sup _{t\in [0,T_{0}]}{\displaystyle {\sqrt {n}}|D_{n}(t)|}  =\sup _{t\in [0,T_{0}]} \sqrt{n}|F_{n}(t)-t|} 
+\end{align}
+Here, the distribution of the test statistic is immediate because the stopping time $T_{0}$ is independent
+of the process $B_{0}(t)$. So the limiting distribution of $KS^{I}$ when   $ n\rightarrow \infty$ can be obtained  as
+\begin{align}
+     KS^{I} ={\displaystyle \sup _{t\in [0,T_{0}]}{\displaystyle {\sqrt {n}}|D_{n}(t)|} ~~ \xrightarrow{d} ~~ {\displaystyle \sup _{t\in [0,T_{0}]}|B(t)|=K_1  }}  
+\end{align}
+\cite{Dufour_1978} suggested  the working formula for Type-I censored data
+\begin{align}
+    KST^I=~~~\displaystyle\max_{i\leq d}\left\{|T_{(i)}-\frac{i}{n}|,|T_{(i)}-\frac{i-1}{n}|,|T_{(d)}-\frac{d}{n}|\right\} \label{kst1}
+    \end{align}
+where, $\{T_{(1)}< T_{(2)}<\cdots< T_{(d)}<T_0<T_{(d+1)}\}$\\
+Note that the correction factor $(-0.19/\sqrt{n})$  suggested by \cite{Koziol} for Type I censoring.
+
+ In Type-II censoring scheme the experiment is stopped when the $r^{th}$ failure, i.e., $T_{(r)} =
+F_{0}(X_{(r)})$ takes place. We observe the realizations till the rth failure as ${T_{(1)},T_{(2)}, . . . , T_{(r)}}$. This test can be formulated using  three different methods. First of all the working formula suggested by \cite{Dufour_1978}  for Type-II censored data is 
+\begin{equation}
+{\displaystyle {\sqrt {n}}D_{n:r}}={\displaystyle{\sqrt{n}}\max_{i\leq r}} \displaystyle { \Bigg\{ { \abs{ \Big| T_{(i)} - \frac{i}{n} \Big|}, \abs{ \Big|T_{(i)} - \frac{i-1}{n} \Big| } \Bigg\} = KST^{II} } } 
+\label{kst2}
+\end{equation}
+In the first method we follow the idea by \cite{Koziol}. They calculated the percentage points for different truncation points of 
+Type-I censoring and claimed that it will work equivalently well for Type-II censoring when $r/n\longrightarrow \lambda_0$, some fixed truncation point as used in Type-I censoring.  
+Let us assume that both $r$ and $n$ move to infinity, then   the mode of convergence can be stated as 
+\begin{align}
+     {{\sqrt {n}}D_{n:r}}  \xrightarrow{d} {\displaystyle \sup _{t\in [0,\lambda_{0}]}|B(t)|=K_{2a} .} 
+\end{align}
+Note that the correction factor $(-0.24/\sqrt{n})$  suggested by \cite{Koziol}  to accommodate the sample size  is only a function of $n$ but not $r$ which is also crucial for the Type-II censoring.
+
+ In the second method we consider the known fact that the stopping time $T_{(r)}$ follows a $Beta(r, n - r + 1)$ distribution. 
+ So, in this method the mode of convergence can be states as 
+\begin{align}
+     {{\sqrt {n}}D_{n:r}}  \xrightarrow{d} {\displaystyle \sup _{t\in [0,T_{(r)}]}|B(t)|=K_{2b}  .} 
+\end{align}
+
+We consider the third method following the work by \cite{Banerjee_B.}. Assuming  $u\in[0,1)$  define 
+  \begin{equation}
+  D_n^{II}(u)=D_n(uT_{(r)})=F_n(uT_{(r)})-uT_{(r)}.
+ \end{equation}
+  $F_n(uT_{(r)})$ and $uT_{(r)}$ are independent and $nF_n(uT_{(r)})\sim ~~bin(r-1,u)$ which is invariant of $T_{(r)}$. For  the Type-II censoring
+  the KS-statistic define as 
+  \begin{align}
+       \displaystyle KS^{II}= \sup_{u\in[0,1]}\sqrt{n}|D_{n}^{II}(u)|=K_{2c}
+  \end{align}
+which can be computed as 
+\begin{equation}
+\max \sqrt{n}   \left\{{ \displaystyle{ \max_{u\in[0,1)} \Bigg| \frac{r-1}{\sqrt{n}} u + \sqrt{\frac{r-1}{n}} B_0(u)-u\sqrt{n} T_{(r)} \Bigg|, \Bigg| \frac{r}{n}- T_{(r)} \Bigg|  }}\right\}
+\end{equation}
+
+\section{Simulations and Findings}
+
+We have conducted an extensive simulation  to study the performances of these test statistics and the closeness of  their behaviour  with the limiting distribution. For testing purpose mostly the $99$th, $95$th and $90$th  percentiles are used. The methodology we have discussed can be used for any computation of  percentile. But for the ease of demonstration we consider the $95$th percentile point. For sample size $200(=n)$ data are generated from $U[0,1]$ distributions and the test statistic values are computed for $KST^0$, $KST^I$ and $KST^{II}$ following the equations (\ref{kst0}), (\ref{kst1}) and (\ref{kst2}) respectively. For the Type-I censoring $T_0$ is chosen to be $0.40$ and for the Type-II censoring $r$ is chosen to be $80$ out of $200.$  On the other hand, for the limiting test statistic values  $K$, $K_1$, $K_{2a}$, $K_{2b}$ and $K_{2c}$ are  generated with different grid sizes for the standard Brownian bridge on $[0,1].$ We have chosen grid sizes $5n$, $12n$, $24n$, $25n$, $50n$ and $100n$ in separate cases. In each of the cases the data are generated from the exact test statistic and the limiting test statistic for $\mathbf{10000}$ times. It is providing  an opportunity to compare the closeness of the distribution of  $KST^0$ and $K$ for complete data; the distribution of $KST^I$ and $K_1$  for the Type-I censoring;  the distribution of $KST^{II}$ and $K_{2a}, K_{2b}, K_{2c}$  for the Type-II censoring. We have compared them with respect to the  Wilcoxon Rank Sum (WRS) test. This entire process is repeated $\mathbf{2500}$ time and the p-values are speculated.  We know that under the null hypothesis the distribution of p-value will follow $U[0,1]$. As a consequence the computed p-value less than  the level $0.05$ will be approximately close to $0.05$. Only that feature has been  observed when the grid size is chosen to be $12n$ and comparisons are done between the distributions of $KST^0$ and $K$, $KST^1$ and $K_1$,  and $KST^{II}$ and $K_{2a}$.  The closeness of $ K_{2b}, K_{2c}$ with $KST^{II}$ are not that significant. On the contrary, the other specifications of grid sizes  show  much more mismatches with the exact distribution of the test statistic. For example we have reported the result for  $100n$  grid size in Table \ref{pvalue_compare}.
+
+\begin{table}[t]
+  \begin{tabular}{|c|c|c|c|c|}
+  \hline
+\textbf{Censoring} & \textbf{Exact} & \textbf{Limiting}  & \textbf{Grid size}  &  \textbf{Grid size} \\
+ \textbf{Scheme} &\textbf{Test statistic}&  \textbf{Test statistic}  &  $ n \times 100$  & $n \times 12$   \\ 
+   \hline
+&$KST^0$&$\mathbf{K}$	    &	0.5576	&	0.0492  \\
+Type-I& $KST^I$ &$\mathbf{K_1}$	    &	0.5968	&   0.0596	\\
+Type-II& $KST^{II}$&$\mathbf{K_{2a}}$	&	0.7248	&	0.0616	\\
+Type-II&$KST^{II}$&$\mathbf{K_{2b}}$	&	0.4484	&	0.0988	\\
+Type-II&$KST^{II}$&$\mathbf{K_{2c}}$	&	0.5612	&	0.1156	\\
+\hline 
+\end{tabular}
+\vspace{0.5cm}
+\caption{Proportion of p-values less than 0.05.} \label{pvalue_compare}
+ \end{table}
+ 
+From the histograms we also can see that with grid size $12n$  simulated data have more resemblance with the exact simulation. As a consequence we observe uniform distribution of the p-values with  the complete data and the Type-I censoring. Figure \ref{fig:K01}  is showing the same. 
+For the Type-II censoring when the exact simulation is  compared  with $K_{2a}$ is also providing closed to  $U[0,1]$ distribution for the p-value. Figure \ref{fig:K2a}  is showing the same. Other two statistics  $K_{2b}$ and $K_{2c}$ are lagging a bit.  But for grid size $100n$  we observe a a prominent disparity  among the exact and the limiting distribution.  It is reflected in Figure \ref{fig:K2bc}. We have observed the same for the other grid sizes also as mentioned above.
+\newpage
+\begin{figure}[t]
+	\includegraphics[width=6cm, height=15cm,angle=-90]{kkn.eps}
+	\caption{$K$ with Complete data and $K_1$ with Type-I censoring}
+	\label{fig:K01}
+\end{figure}
+
+\begin{figure}[h]
+	\includegraphics[width=5cm, height=15cm,angle=-90]{k2a.eps}
+	\caption{$K_{2a}$ with Type-II censoring   }
+	\label{fig:K2a}
+\end{figure}
+
+\begin{figure}[h]
+	\includegraphics[width=6cm, height=15cm,angle=-90]{k2bc.eps}
+	\caption{$K_{2b}$ and $K_{2c}$ with Type-II censoring }
+	\label{fig:K2bc}
+\end{figure}
+\newpage
+
+\section{\textbf{When the parameters of distribution are unknown}}
+ 
+ The three types of families are location families, scale families and location- scale families. Each of the families is generated by the single pdf, say $f(x)$, called the standard pdf for the family.Then all the other pdfs in the family are generated by transforming the standard pdf in the prescribed way.
+ 
+ Let $f(x)$ be any pdf and $\mu$ and let $\sigma > 0$ be any given constants. Then, the function
+ \begin{align}
+     g(x|\mu,\sigma) = \frac{1}{\sigma} f\bigg(\frac{x-\mu}{\sigma}\bigg)
+ \end{align}
+ is a pdf.
+ \newline
+ 
+ Let $f(x)$ be any pdf. Then the family of pdfs, $f(x-\mu)$, indexed by $\mu$, $-\infty<\mu<\infty$ is called the \textit{location family with standard pdf,} $f(x)$ and $\mu$, is called the \textit{location parameter} of the family.
+ 
+  Let $f(x)$ be any pdf. Then the family of pdfs, $\frac{1}{\sigma}f(\frac{x}{\sigma})$, indexed by $\sigma$, $\sigma>0$ is called the \textit{scale family with standard pdf,} $f(x)$ and $\sigma$, is called the \textit{scale parameter} of the family.
+ 
+  Let $f(.)$ be any pdf. Let $\mu$ be any real number and let $\sigma$ be any positive real number. Then \textbf{X} is a random variable with pdf $\frac{1}{\sigma} f\bigg(\frac{x-\mu}{\sigma}\bigg)$ if and only if \textbf{Z} is a random variable with pdf, $f(z)$ and $X=\sigma Z+\mu$.
+  \newline
+  
+ In each of the cases the data are generated from the scaled distribution and null distribution for \textbf{20000} times.
+ KS-test statistic values are calculated for both of the distribution. It is providing opportunity to compare the closeness of two distribution. We have compared them with respect to the Wilcoxon Rank Sum (WRS) test. This entire process is repeated \textbf{2500} times and the p-values are speculated. We know that under the null hypothesis the distribution of p-value will follow U[0,1]. As a con-sequence the computed p-value less than the level 0.05 will be approximately close to 0.05.
+ 
+\newpage
+\textbf{1. Uniform distribution, $U(a,b)$}\\
+We generated $n$ samples from $U(a,b)$ distribution 
+Parameters $a$ and $b$ are estimated as :
+
+\begin{equation}
+    \hat{a}=\frac{n* min(x) -max(x)}{n-1}
+\end{equation}
+
+\begin{equation}
+       \hat{b}=\frac{n*max(x)-min(x)}{n-1}
+\end{equation}
+
+\begin{figure}[t]
+	\includegraphics[width=18cm, height=8cm]{uf01all.eps}
+	\caption{ Uniform distribution }
+	\label{fig:uf}
+\end{figure}
+\newpage
+
+
+\textbf{2. Normal distribution, $N(\mu,\sigma)$}\\
+
+The parameters $\mu$ and $\sigma$ are estimated as:
+
+\begin{align}
+     \hat{ \mu} =\frac{\displaystyle\sum_{i=1}^{n} x_i}{n} 
+ \end{align}
+
+\begin{align}
+     \hat{ \sigma}= \sqrt{ \frac{ \sum_{i=1}^n (x_i-\hat{\mu})^2 }{n-1}}
+\end{align}
+
+\begin{figure}[t]
+	\includegraphics[width=18cm, height=8cm]{nrm01.eps}
+	\caption{ Uniform distribution }
+	\label{fig:uf}
+\end{figure}
+
+\newpage
+
+
+
+\textbf{3. Log-Normal distribution, $lognormal(\mu,\sigma)$}\\
+
+The parameters $\mu$ and $\sigma$ are estimated as:
+
+\begin{align}
+     \hat{ \mu} =\frac{\displaystyle\sum_{i=1}^{n} \log x_i}{n} 
+ \end{align}
+
+\begin{align}
+    \hat{\sigma}= \sqrt{ \frac{\displaystyle \sum_{i=1}^n (\log x_i-\hat{\mu})^2 }{n-1}}
+\end{align}
+
+\begin{figure}[t]
+	\includegraphics[width=18cm, height=8cm]{lgn01.eps}
+	\caption{ Log-normal distribution }
+	\label{fig:lgn}
+\end{figure}
+\newpage
+
+
+
+\textbf{4. Logistic distribution, $logistic(\mu,s)$}\\
+
+The parameters $\mu$ and $s$ are estimated as:
+
+\begin{align}
+     \hat{ \mu} =\frac{\displaystyle\sum_{i=1}^{n} x_i}{n} 
+ \end{align}
+
+\begin{align}
+     \hat{ \sigma}= \sqrt{ \frac{ \sum_{i=1}^n (x_i-\hat{\mu})^2 }{n-1}}
+\end{align}
+
+\begin{align}
+    \hat{s}= \sqrt{\frac{3*\hat\sigma}{\pi^2}}
+\end{align}
+
+\newpage
+\textbf{5. Laplace distribution, $Laplace(\mu,b)$}\\
+
+\begin{align}
+     \hat{ \mu} =\frac{\displaystyle\sum_{i=1}^{n} x_i}{n} 
+ \end{align}
+
+\begin{align}
+     \hat{ \sigma}= \sqrt{ \frac{ \sum_{i=1}^n (x_i-\hat{\mu})^2 }{n-1}}
+\end{align}
+
+\begin{align}
+    \hat{b}= \sqrt{\frac{\hat\sigma}{2}}
+\end{align}
+
+
+\newpage
+
+\section{Conclusion and Future work}
+In this analysis we have compared the closeness of the exact distribution of KS-statistic with the limiting distribution of that for complete data, Type-I censoring scheme and  Type-II censoring scheme. We have considered different grid sizes on $[0,1]$ to generate data from Brownian bridges. 
+We observed that not only for the Type-II censoring scheme but also for complete data and Type-I censoring scheme grid size as $\mathbf{n \times 12}$ is working exceptionally well. This is consuming less computational cost and time too.
+ We would like to theorize  the finding as a consequence of $U[0,1]$ distribution because it has the variance  $\mathbf{\frac{1}{12}}$. We will provide  a proof of the same in future. Also, we are aiming  to generalize this idea for the case when the  parameter is unknown.  
+
+\vspace{1cm}
+\section{Acknowledgement}
+ I am heartily thankful to my supervisor,
+ Dr.Buddhananda Banerjee, whose encouragement, guidance and support from the initial to final level enabled me to develop an understanding of this topic. Also, I would like to thank the  Department of Mathematics, IIT Kharagpur, that has  provided me all facilities required to finish my project smoothly.
+\newpage
+
+\bibliographystyle{natbib}
+\bibliography{References.bib}
+\vspace{1cm}
+
+
+
+
+\end{document}
